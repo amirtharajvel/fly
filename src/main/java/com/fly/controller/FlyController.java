@@ -1,5 +1,6 @@
 package com.fly.controller;
 
+import com.fly.service.CriteriaService;
 import com.fly.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,6 +17,9 @@ public class FlyController {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private CriteriaService criteriaService;
+
     @GetMapping(value = "/greeting", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HashMap<String, Object>> getUrl(@RequestParam("sleeptime") Integer sleep, @RequestParam("error") Integer error) throws InterruptedException {
 
@@ -29,6 +33,19 @@ public class FlyController {
         return ResponseEntity.ok(map);
 
     }
+
+    @GetMapping(value = "/c")
+    public @ResponseBody String c(@RequestParam("name") String name) {
+        criteriaService.all();
+        return "Success";
+    }
+
+    @GetMapping(value = "/saveItem")
+    public @ResponseBody String saveItem(@RequestParam("name") String name) {
+        criteriaService.save(name);
+        return "Success";
+    }
+
 
     @GetMapping(value = "/o")
     public @ResponseBody String action(@RequestParam("name") String name) {
