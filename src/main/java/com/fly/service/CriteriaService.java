@@ -23,7 +23,7 @@ public class CriteriaService {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Item> cq = builder.createQuery(Item.class);
         Root<Item> root = cq.from(Item.class);
-        cq.select(root).where(builder.gt(root.get("price"),1000));
+        cq.select(root).where(builder.like(root.get("name"),"%urugan%"));
 
         System.out.println(em.createQuery(cq).getResultList());
 
