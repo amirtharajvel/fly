@@ -11,11 +11,15 @@ import javax.persistence.*;
 import java.util.Map;
 
 @Entity
-@AttributeOverride(name="identifier", column = @Column(name = "VIN"))
+@AttributeOverride(name = "identifier", column = @Column(name = "VIN"))
 @Data
 @Getter
 @Setter
-public class Car extends Vehicle{
+//@Table(indexes = @Index(name = "schemaone.name_index", columnList = "name"))// schemaone is a separate schema
+//Error: Caused by: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.name_index on car (name)' at line 1
+@Table(indexes = {@Index(name = "name_index", columnList = "name, model DESC", unique = true),
+        @Index(name = "model_index", columnList = "model")})// default is ASC
+public class Car extends Vehicle {
 
     private String model;
 
@@ -30,7 +34,7 @@ public class Car extends Vehicle{
 
     @ElementCollection
     @AttributeOverrides({
-        @AttributeOverride(name="key.name", column = @Column(name = "OWNER_NAME")),
+            @AttributeOverride(name = "key.name", column = @Column(name = "OWNER_NAME")),
             @AttributeOverride(name = "key.surname", column = @Column(name = "OWNER_SURNAME")),
             @AttributeOverride(name = "value.name", column = @Column(name = "ADDRESS_NAME"))
     })
